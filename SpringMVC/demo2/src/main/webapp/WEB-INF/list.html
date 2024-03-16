@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="static/axios.min.js"></script>
+    <script type="text/javascript" src="static/vue.js"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            var del = new Vue({
+                el: "#tab",
+                methods: {
+                    delEmp: function (event) {
+                        alert(event);//[object PointerEvent]
+                        alert(event.srcElement);//http://localhost:8080/demo2/employee/1002
+                        alert(event.srcElement.tagName);//A
+                        var delForm = document.getElementById("delForm");
+                        alert(event.target);
+                        alert(event.target.href);
+                        delForm.action = event.target.href;
+                        delForm.submit();
+                        event.preventDefault();
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<table id="tab" cellpadding="0" cellspacing="0" align="center" border="1px" style="text-align: center">
+    <tr>
+        <th>id</th>
+        <th>lastName</th>
+        <th>email</th>
+        <th>gender</th>
+        <th>option</th>
+    </tr>
+    <tr th:each="employee:${list}">
+        <td th:text="${employee.id}">0</td>
+        <td th:text="${employee.lastName}">0</td>
+        <td th:text="${employee.email}">0</td>
+        <td th:text="${employee.gender}">0</td>
+        <td>
+            <a th:href="@{/employee/}+${employee.id}" @click="delEmp">delete</a>
+            <a th:href="@{'/employee/'+${employee.id}}">update</a>
+        </td>
+    </tr>
+    <tr>
+        <th colspan="5">
+            <a th:href="@{/add}">add</a>
+        </th>
+    </tr>
+</table>
+<form id="delForm" method="post">
+    <input type="hidden" name="_method" value="delete">
+</form>
+</body>
+</html>

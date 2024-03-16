@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.user.UserMapper">
+    <!--int addOne();-->
+    <insert id="addOne">
+        insert into user
+        values (null, '张三', '123', 'foshan', '123')
+    </insert>
+    <!--int updateOne();-->
+    <update id="updateOne">
+        update user
+        set name='张三'
+        where name = 'john'
+    </update>
+    <!--int deleteOne();-->
+    <delete id="deleteOne">
+        delete
+        from user
+        where name = '张三'
+    </delete>
+    <!--User selectOne();-->
+    <select id="selectOne" resultType="com.user.User">
+        select * from user where id=1
+    </select>
+    <!--List<User> selectAll();-->
+    <select id="selectAll" resultType="com.user.User">
+        select * from user
+    </select>
+    <!--int count();-->
+    <select id="count" resultType="int">
+        select count(*) from user
+    </select>
+</mapper>

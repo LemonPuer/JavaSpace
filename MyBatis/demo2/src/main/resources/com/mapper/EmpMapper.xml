@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.EmpMapper">
+    <resultMap id="selectOne" type="emp">
+        <result column="emp_name" property="empName"/>
+        <result column="dept_id" property="dept.deptId"/>
+        <result column="name" property="dept.name"/>
+    </resultMap>
+    <resultMap id="selectTwo" type="emp">
+        <id column="id" property="id"/>
+        <result column="emp_name" property="empName"/>
+        <result column="email" property="email"/>
+        <result column="salary" property="salary"/>
+        <association property="dept" javaType="dept">
+            <id column="dept_id" property="deptId"/>
+            <result column="name" property="name"/>
+        </association>
+    </resultMap>
+    <!--Emp selectOne(@Param("id")int id);-->
+    <select id="selectOne" resultMap="selectOne">
+        select * from emp left join dept on emp.dept_id=dept.dept_id where id=#{id}
+    </select>
+    <resultMap id="stepOne" type="emp">
+        <id column="id" property="id"/>
+        <result column="emp_name" property="empName"/>
+        <result column="email" property="email"/>
+        <result column="salary" property="salary"/>
+        <association property="dept" select="com.mapper.DeptMapper.stepTwo" column="dept_id"/>
+    </resultMap>
+    <!--Emp stepOne(@Param("id")int id);-->
+    <select id="stepOne" resultMap="stepOne">
+        select * from emp where id=#{id}
+    </select>
+    <!--List<Emp> stepTwo(@Param("deptId")int deptId);-->
+    <select id="stepTwo" resultType="emp">
+        select * from emp where dept_id=#{deptId}
+    </select>
+    <!--List<Emp> selectMore(Emp emp);-->
+    <select id="selectMore" resultType="emp">
+        select * from emp
+        <trim prefix="where" prefixOverrides="and">
+        <choose>
+            <when test="empName!=null and empName!=''">
+            and emp_name=#{empName}
+            </when>
+            <when test="email!=null and email!=''">
+                and email=#{email}
+            </when>
+            <when test="salary!=0">
+                and salary=#{salary}
+            </when>
+        </choose>
+        </trim>
+    </select>
+    <!--int insertMore(@Param("emps")List<Emp> emps);-->
+    <insert id="insertMore">
+        insert into emp values
+        <foreach collection="emps" item="emp" separator=",">
+            (null,#{emp.empName},#{emp.email},#{emp.salary},#{emp.dept.deptId})
+        </foreach>
+    </insert>
+</mapper>

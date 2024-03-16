@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: kafkaApp
+  kafka:
+    bootstrap-servers: 192.168.124.105:9092
+
+logging:
+  level:
+    workspace: debug
