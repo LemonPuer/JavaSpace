@@ -1,0 +1,64 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: order-service
+  zipkin:
+    base-url: http://192.168.124.105:9411
+  sleuth:
+    sampler:
+      #采样率值介于 0 到 1 之间，1 则表示全部采集
+      probability: 1
+  cloud:
+    stream:
+      function:
+        definition: getMessage
+      binders:
+        myRabbit: #自定义名称，用于和binding整合
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 192.168.124.105
+                port: 5672
+                username: john
+                password: 123456
+      bindings:
+        test-output: #定义的消息通道名称
+          content-type: application/json #设置消息类型，本次为json，文本则设置“text/plain”
+          destination: myExchange1       #表示要使用的Exchange名称定义
+          binder: myRabbit  #设置要绑定的消息服务的具体设置
+        getMessage-in-0: #默认队列的输入通道名称
+          content-type: application/json
+          destination: myExchange2
+          binder: myRabbit
+          group: order8001  # rocketmq一定要设置group
+
+
+  #rabbitmq相关配置
+  rabbitmq:
+    host: 192.168.124.105
+    port: 5672
+    username: john
+    password: 123456
+
+eureka:
+  client:
+    #false表示不向注册中心注册自己。
+    register-with-eureka: true
+    #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    fetch-registry: true
+    service-url:
+      #设置与Eureka Server交互的地址查询服务和注册服务都需要依赖这个地址。
+      defaultZone: http://localhost:7001/eureka/
+  instance:
+    instance-id: order-service:8001
+    prefer-ip-address: true     #访问路径可以显示IP地址
+
+# 暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

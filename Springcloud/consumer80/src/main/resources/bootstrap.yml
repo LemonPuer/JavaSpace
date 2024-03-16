@@ -1,0 +1,8 @@
+testName: LemonPuer
+spring:
+  cloud:
+    config:
+      label: main #分支名称
+      name: config #配置文件名称
+      profile: dev #读取后缀名称
+      uri: http://127.0.0.1:6001 #配置中心地址

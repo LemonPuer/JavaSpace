@@ -1,0 +1,59 @@
+server:
+  port: 80
+
+spring:
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr:  192.168.124.105:8848
+#    sentinel:
+#      transport:
+#        dashboard: 192.168.124.105:8080
+#        port: 8719
+#      datasource:
+#        myDS:
+#          nacos:
+#            server-addr: 192.168.124.105:8848
+#            data-id: ${spring.application.name}
+#            group-id: DEFAULT_GROUP
+#            data-type: json
+#            rule-type: flow
+seata:
+  registry:
+    type: nacos
+    nacos:
+      server-addr: 192.168.124.105:8848
+      #以下填写的时Seata客户端注册到nacos中的信息
+      namespace: ""
+      group: SEATA_GROUP
+      application: seata-server
+  #自定义事务组名称
+  tx-service-group: seata-test
+  service:
+    # 事务组与tc集群的映射关系
+    vgroup-mapping:
+      # default - tc服务(事务协调器)的集群名称;键为自定义事务组名称，与上面一致
+      seata-test: default
+#      grouplist:
+#        default: 192.168.124.105:8091
+
+logging:
+  level:
+    # feign日志以什么级别监控哪个接口
+    com.test.service.PayService: debug
+
+feign:
+  circuitbreaker:
+    enabled: true   #在Feign中开启Hystrix
+  client:
+    config:
+      default:
+        connect-timeout: 5000
+        read-timeout: 5000
+
+hystrix:
+  command:
+    default:
+      execution.isolation.thread.timeoutInMilliseconds: 5000

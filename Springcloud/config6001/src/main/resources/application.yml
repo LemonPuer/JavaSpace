@@ -1,0 +1,42 @@
+server:
+  port: 6001
+
+spring:
+  application:
+    name: cloud-config #注册进Eureka服务器的微服务名
+  cloud:
+    config:
+      server:
+        git:
+          uri: git@github.com:LemonPuer/cloud_config.git #GitHub上面的git仓库名字
+          #搜索目录
+#          search-paths:
+#            - cloud_config
+      #读取分支
+      label: main
+  #rabbitmq相关配置
+  rabbitmq:
+    host: 192.168.124.105
+    port: 5672
+    username: john
+    password: 123456
+
+eureka:
+  client:
+    #false表示不向注册中心注册自己。
+    register-with-eureka: true
+    #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    fetch-registry: true
+    service-url:
+      #设置与Eureka Server交互的地址查询服务和注册服务都需要依赖这个地址。
+      defaultZone: http://localhost:7001/eureka/
+  instance:
+    instance-id: cloud-config:6001
+    prefer-ip-address: true     #访问路径可以显示IP地址
+
+#rabbitmq相关配置,暴露bus刷新配置的端点
+management:
+  endpoints: #暴露bus刷新配置的端点
+    web:
+      exposure:
+        include: 'bus-refresh'

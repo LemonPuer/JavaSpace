@@ -1,0 +1,12 @@
+testName: LemonPuer
+today:
+  mood: 😃
+spring:
+  application:
+    name: consumer-service
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.124.105:8848 #Nacos作为配置中心地址
+        file-extension: yaml #指定yaml格式的配置
+#        enable-remote-sync-config: true

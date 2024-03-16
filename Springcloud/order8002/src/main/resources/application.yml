@@ -1,0 +1,51 @@
+server:
+  port: 8002
+
+spring:
+  application:
+    name: order-service
+  #rabbitmq相关配置
+#  rabbitmq:
+#    host: 192.168.124.105
+#    port: 5672
+#    username: john
+#    password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.124.105:8848
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.124.106:3306/seata_order
+    username: root
+    password: 123456
+#eureka:
+#  client:
+#    #false表示不向注册中心注册自己。
+#    register-with-eureka: true
+#    #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+#    fetch-registry: true
+#    service-url:
+#      #设置与Eureka Server交互的地址查询服务和注册服务都需要依赖这个地址。
+#      defaultZone: http://localhost:7001/eureka/
+#  instance:
+#    instance-id: order-service:8002
+#    prefer-ip-address: true     #访问路径可以显示IP地址
+
+seata:
+  registry:
+    type: nacos
+    nacos:
+      server-addr: 192.168.124.105:8848
+      namespace: ""
+      group: SEATA_GROUP
+      application: seata-server
+  #自定义事务组名称
+  tx-service-group: seata-test
+  service:
+    # 事务组与tc集群的映射关系
+    vgroup-mapping:
+      # default - tc服务(事务协调器)的集群名称;键为自定义事务组名称，与上面一致
+      seata-test: default
+#      grouplist:
+#        default: 192.168.124.105:8091
