@@ -1,0 +1,29 @@
+person:
+  name: John
+  boss: false
+  birth: 1998/12/12 20:12:33
+  age: 25
+  pet:
+    name: wang
+    age: 2
+  interests: [ 篮球,唱歌,跳舞 ]
+  animal:
+    - jerry
+    - tom
+  score:
+    #对象
+    math:
+      #属性
+      first: 90
+      second: 95
+    #list
+    english: [ 85,88 ]
+  salarys: [ 9000,10000.66,11000 ]
+  allPets:
+    cat:
+      - name: jerry
+        age: 3
+    dog: [ { name: tom,age: 4 } ]
+
+myString:
+  test: hello,world!
