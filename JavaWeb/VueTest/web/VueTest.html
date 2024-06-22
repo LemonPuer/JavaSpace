@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-blind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="static/vue.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/axios.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            var vue = new Vue({
+                el: "#div0",
+                data: {
+                    count: 1,
+                    msg: "hello!",
+                    user: ["张三", "李四", "王五"]
+                },
+                methods: {
+                    "reverseMsg": function () {
+                        this.msg = this.msg.split("").reverse().join("");
+                    }
+                }
+            });
+            var tab = new Vue({
+                el: "#tab",
+                data: {
+                    "fruit": [
+                        {name: "apple", price: 5},
+                        {name: "banana", price: 8},
+                        {name: "orange", price: 6}
+                    ]
+                }
+            });
+            var ajax=new Vue({
+               el:"#ajax",
+               methods:{
+                   ajax:function (event){
+                       axios({
+                           method:"POST",
+                           url:"ajax",
+                           data:{
+                               name:"john",
+                               age:23
+                           }
+                       }).then(function (resp){
+                           alert(resp);
+                           alert(resp.data);
+                       }).catch(function (error){
+                           alert(error);
+                       })
+                       event.preventDefault();
+                   }
+               }
+            });
+        }
+    </script>
+</head>
+<body>
+<div id="div0">
+    <!-- v-bind:value表示将value属性交给Vue来进行管理，也就是绑定到Vue对象 -->
+    <!-- msg是一个用来渲染属性值的表达式，相当于标签体中加{{}}的表达式 -->
+    <!-- 在HTML标签的属性中，通过v-bind:属性名="表达式"的方式告诉Vue这里要渲染 -->
+    <input type="text" v-bind:value="msg"/><br>
+    <!-- 同样的表达式，在标签体内通过{{}}告诉Vue这里需要渲染； -->
+    <span>{{msg}}</span><br>
+    <input type="text" v-model:value="msg"/><br>
+    <input type="text" v-model="count"/><br>
+    <img v-if="count%2==0" src="1.jpg" style="height: 144px;width: 94px"/>
+    <img v-else="count%2!=0" src="2.jpg" style="height: 144px;width: 94px"/>
+    <img v-show="count==3" src="3.jpg" style="height: 144px;width: 200px"/><br>
+    <ul>
+        <li v-for="u in user">{{u}}</li>
+    </ul>
+    <button v-on:click="reverseMsg">Click me</button>
+</div>
+
+<table id="tab">
+    <tr>
+        <th>名称</th>
+        <th>单价</th>
+    </tr>
+    <tr v-for="a in fruit">
+        <td>{{a.name}}</td>
+        <td>{{a.price}}</td>
+    </tr>
+</table>
+<a href="ajax" id="ajax" @click="ajax">ajaxTest</a>
+</body>
+</html>

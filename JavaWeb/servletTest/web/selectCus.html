@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>顾客名单</title>
+    <style type="text/css">
+        table{
+            border-collapse: collapse;
+        }
+        th, tr, td {
+            height: 20px;
+            width: 80px;
+            border: 1px solid aliceblue;
+            text-align: center;
+        }
+
+        div {
+            background-color: beige;
+            margin-left: 30%;
+            margin-top: 5%;
+            border: 1px solid chartreuse;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <table>
+        <tr>
+            <th>顾客ID</th>
+            <th>姓名</th>
+            <th style="width: 200px">邮箱</th>
+            <th style="width: 180px">生日</th>
+        </tr>
+        <tr th:if="${#lists.isEmpty(session.List)}">
+            <td colspan="4">对不起，服务器跑丢了。。。</td>
+        </tr>
+        <tr th:unless="${#lists.isEmpty(session.List)}" th:each="Customer:${session.List}">
+            <td th:text="${Customer.id}">1</td>
+            <td th:text="${Customer.name}">张三</td>
+            <td th:text="${Customer.email}">zhangsan@qq.com</td>
+            <td th:text="${Customer.birth}">0000-00-00</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

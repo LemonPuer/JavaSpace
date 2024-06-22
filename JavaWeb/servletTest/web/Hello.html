@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加顾客</title>
+    <style type="text/css">
+        tr, td {
+            text-align: center;
+        }
+
+        div {
+            background-color: beige;
+            margin-left: 30%;
+            margin-top: 5%;
+            border: 1px solid chartreuse;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<form action="Hello" method="post">
+    <div>
+        <table>
+            <tr>
+                <td>客户名称：</td>
+                <td><input type="text" name="name" value="john"></td>
+            </tr>
+            <tr>
+                <td>客户邮箱：</td>
+                <td><input type="text" name="email" value="john@qq.com"></td>
+            </tr>
+            <tr>
+                <td>客户生日：</td>
+                <td><input type="text" name="birth" value="1999-09-09"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><a href="select">查看所有顾客信息</a></td>
+            </tr>
+        </table>
+    </div>
+</form>
+</body>
+</html>
